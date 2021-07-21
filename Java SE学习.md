@@ -493,3 +493,19 @@ public class Base {
 }
 ```
 
+
+
+
+
+设计思想：
+
+适配器：
+
+https://www.cnblogs.com/lingshang/p/10708800.html
+
+回调函数：
+
+定时器： 
+
+Swagger: 接口函数
+
