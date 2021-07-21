@@ -78,6 +78,12 @@ BIO  Blocking I/O
 
 ![img](G:\有道云\qq2D1D5CB92B2C0FF061B3D3F82DA32CD1\80bc35c4f78241a59eca389407d877e0\clipboard.png)
 
+
+
+# Netty的Reactor线程模型
+
+![image-20210719131932565](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210719131932565.png)
+
 ```java
 EventLoop mianGroup = new NioEventLoop //主线程，负责连接。 subGroup负责处理hanle建立服务器  
 ServerBootStrap server = new ServerBootStrap();
@@ -100,6 +106,90 @@ pipeline.addLast();
 ```
 
 
+
+
+
+```java
+EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)EventLoopGroup workerGroup = new NioEventLoopGroup();try {
+    ServerBootstrap b = new ServerBootstrap(); // (2)
+    b.group(bossGroup, workerGroup)　　// (3)
+     .channel(NioServerSocketChannel.class) // (4)     .handler(new LoggingHandler())    // (5)
+     .childHandler(new ChannelInitializer<SocketChannel>() { // (6)
+         @Override
+         public void initChannel(SocketChannel ch) throws Exception {
+             ch.pipeline().addLast(new DiscardServerHandler());
+         }
+     })
+     .option(ChannelOption.SO_BACKLOG, 128)          // (7)
+     .childOption(ChannelOption.SO_KEEPALIVE, true); // (8)
+    
+     // Bind and start to accept incoming connections.
+     ChannelFuture f = b.bind(port).sync(); // (9)
+    
+     // Wait until the server socket is closed.
+     // In this example, this does not happen, but you can do that to gracefully
+     // shut down your server.
+     f.channel().closeFuture().sync();
+} finally {
+    workerGroup.shutdownGracefully();
+    bossGroup.shutdownGracefully();
+}
+```
+
+
+
+上面这段代码展示了服务端的一个基本步骤：
+
+(1)、 初始化用于Acceptor的主"线程池"以及用于I/O工作的从"线程池"；
+(2)、 初始化ServerBootstrap实例， 此实例是netty服务端应用开发的入口，也是本篇介绍的重点， 下面我们会深入分析；
+(3)、 通过ServerBootstrap的group方法，设置（1）中初始化的主从"线程池"；
+(4)、 指定通道channel的类型，由于是服务端，故而是NioServerSocketChannel；
+(5)、 设置ServerSocketChannel的处理器（此处不详述，后面的系列会进行深入分析）
+(6)、 设置子通道也就是SocketChannel的处理器， 其内部是实际业务开发的"主战场"（此处不详述，后面的系列会进行深入分析）
+(7)、 配置ServerSocketChannel的选项
+(8)、 配置子通道也就是SocketChannel的选项
+(9)、 绑定并侦听某个端口
+
+客户端
+
+```java
+public class TimeClient {
+    public static void main(String[] args) throws Exception {
+        String host = args[0];
+        int port = Integer.parseInt(args[1]);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(); // (1)
+        
+        try {
+            Bootstrap b = new Bootstrap(); // (2)
+            b.group(workerGroup); // (3)
+            b.channel(NioSocketChannel.class); // (4)
+            b.option(ChannelOption.SO_KEEPALIVE, true); // (5)
+            b.handler(new ChannelInitializer<SocketChannel>() { // (6)
+                @Override
+                public void initChannel(SocketChannel ch) throws Exception {
+                    ch.pipeline().addLast(new TimeClientHandler());
+                }
+            });
+            
+            // Start the client.
+            ChannelFuture f = b.connect(host, port).sync(); // (7)
+
+            // Wait until the connection is closed.
+            f.channel().closeFuture().sync();
+        } finally {
+            workerGroup.shutdownGracefully();
+        }
+    }
+}
+```
+
+(1)、 初始化用于连接及I/O工作的"线程池"；
+(2)、 初始化Bootstrap实例， 此实例是netty客户端应用开发的入口，也是本篇介绍的重点， 下面我们会深入分析；
+(3)、 通过Bootstrap的group方法，设置（1）中初始化的"线程池"；
+(4)、 指定通道channel的类型，由于是客户端，故而是NioSocketChannel；
+(5)、 设置SocketChannel的选项（此处不详述，后面的系列会进行深入分析）；
+(6)、 设置SocketChannel的处理器， 其内部是实际业务开发的"主战场"（此处不详述，后面的系列会进行深入分析）；
+(7)、 连接指定的服务地址；
 
 
 

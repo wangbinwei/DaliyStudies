@@ -816,6 +816,26 @@ AOP
 
 ![image-20210711101913803](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210711101913803.png)
 
+## 12、Spring Java对象
+
+Pojo Plain Ordinary Java Object简单的Java对象， 展示表的属性，其中每个属性的Getter、Set。没有业务逻辑
+
+pojo: 可以理解为VO和PO的父类
+
+#### **vo、bo、po学习**
+
+**vo**：value object 值对象 view Object表现层对象。主要对应界面显示的数据对象。**后端返回给前端的对象**，**和前端交互的对象**
+
+**po**：**persisient object** 持久对象 可以理解为数据库中的表的一条记录。好处就是可以把一条记录当作为一个对象处理，方便转为其他对象
+
+1 ．有时也被称为Data对象，对应数据库中的entity，可以简单认为一个PO对应数据库中的一条记录。
+
+2 ．在hibernate持久化框架中与insert/delet操作密切相关。
+
+3 ．PO中不应该包含任何对数据库的操作。
+
+**bo**：**business object业务对象** 主要作用是把业务逻辑封装为一个对象。这个对象可以包括一个或多个其它的对象。样例就是和设备进行交互的对象
+
 # 注解说明
 
 - @Autowired:自动装配通过类型。名字

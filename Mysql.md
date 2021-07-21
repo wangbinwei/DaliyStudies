@@ -178,9 +178,66 @@ BLOB 是一个二进制大对象，可以容纳可变数量的数据。有 4 种
 
 ![img](https://img-blog.csdnimg.cn/20200414134627713.png)
 
+## 导出数据库sql文件
+
+### 1、导出数据和表结构：
 
 
 
+``` shell
+mysqldump -u用户名 -p密码 数据库名 > 数据库名.sql
+\#/usr/local/mysql/bin/  mysqldump -uroot -p abc > abc.sql
+敲回车后会提示输入密码 ```
+
+### 
+```
+
+### 2、只导出表结构
+
+```shell
+mysqldump -u用户名 -p密码 -d 数据库名 > 数据库名.sql
+\#/usr/local/mysql/bin/  mysqldump -uroot -p -d abc > abc.sql
+
+```
+
+
+
+docker 导出文件 docker cp
+
+```shell
+docker cp [OPTIONS] container:src_path dest_path
+
+mysqldump -u dbuser -p -d --add-drop-table dbname >d:/dbname_db.sql
+
+```
+
+
+
+## SQL CRUD
+
+删除
+
+```sql
+DELETE FROM 表名称 WHERE 列名称 = 值
+```
+
+更新
+
+```sql
+UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
+```
+
+插入
+
+```sql
+INSERT INTO 表名称 VALUES (值1, 值2,....)
+```
+
+指定
+
+```sql
+INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)
+```
 
 ## 问题：
 

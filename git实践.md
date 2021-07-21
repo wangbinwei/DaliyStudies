@@ -72,7 +72,7 @@ git pull = git fetch + git merge
 
 git log 查看提交的详细信息
 
-git stash  用于临时保存和回复修改，可跨分支  （在未add之前才能使用stash )
+**git stash**  用于临时保存和回复修改，可跨分支  （在未add之前才能使用stash )
 
 git stash list 所有保存的记录列表   
 

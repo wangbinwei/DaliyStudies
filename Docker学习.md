@@ -71,7 +71,31 @@ docker是内核级别的虚拟化，可以在一个物理机上运行很多的�
 
 ## 安装docker
 
-![image-20210320163857974](/Users/wk/Library/Application Support/typora-user-images/image-20210320163857974.png)
+换取国内镜像需要
+
+```
+vim /etc/docker/daemon.json
+```
+
+{
+
+“registry-mirrors”:[“https://registry.docker-cn.com”]
+
+}
+
+重新加载配置文件
+
+```shell
+systemctl daemon-reload
+```
+
+重启Docker
+
+```shell
+`systemctl restart docker`
+```
+
+
 
 ### Docker 重启
 
@@ -713,6 +737,21 @@ tomcat01              1.0       0bd28328a218   5 seconds ago   653MB
 ```shell
 如果想要保存当前容器的状态，就可以通过commit来提交保存
 ```
+
+
+
+## Docker load 和 save实操
+
+```shell
+#将mysql、redis、nginx打包到 imges.tar包中
+docker save -o images.tar docker.io/redis docker.io/nginx docker.io/mysql
+#将打包好的本地镜像导入
+docker load < images.tar
+```
+
+
+
+
 
 # 容器数据卷
 
@@ -1394,7 +1433,29 @@ networks:
 
 
 
+### **ports**
 
+ports暴露容器端口到主机的任意端口或指定端口，用法：
+
+```
+ports:
+  
+- "80:80" # 绑定容器的80端口到主机的80端口
+  
+- "9000:8080" # 绑定容器的8080端口到主机的9000端口
+  
+- "443" # 绑定容器的443端口到主机的任意端口，容器启动时随机分配绑定的主机端口号
+```
+
+
+
+### 压缩打包 zip
+
+将 /home/html/ 这个目录下所有文件和文件夹打包为当前目录下的 html.zip：
+
+```shell
+zip -q -r html.zip /home/html
+```
 
 ### Docker Swarm
 
@@ -1494,6 +1555,22 @@ lrwxrwxrwx 1 root root       16 Jun 29 20:42 readme.txt -> /root/readme.txt
 
 
 
+
+防火墙问题：
+
+```shell
+#防火墙打开
+systemctl start firewalld 
+#加防火墙,查看端口开放的命令
+firewall-cmd --list-port
+#打开防火墙,加端口开发
+firewall-cmd --zone=public --add-port=8089/tcp --permanent
+firewall-cmd --zone=public --add-port=1081/tcp --permanent
+#查看防火墙的状态
+systemctl status firewalld
+#防火墙重新加载
+firewall-cmd --reload
+```
 
 
 
