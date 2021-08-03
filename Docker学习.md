@@ -1258,7 +1258,7 @@ Login Succeeded
 > 思考一个场景，我们编写了一个微服务，database url=ip; 项目不重启，数据库ip换掉了，我们希望处理这个问题，可以名字来进行访问容器？
 
 ```shell
-
+使用docker-compose去部署，可以在同个网络下去通过域名去访问
 ```
 
 
@@ -1275,7 +1275,130 @@ Docker中的所有的网络接口都是虚拟的。虚拟的转发效率高！
 
 > 思考一个场景，我们编写了一个微服务
 
-### Docker Compose
+
+
+# Docker Compose
+
+Compose是Docker官方的开源项目。需要安装
+
+#### 网络规则：
+
+查看网络
+
+```shell
+[root@VM-16-12-centos louyu_pure]# docker network ls
+NETWORK ID          NAME                  DRIVER              SCOPE
+4428d4d0c09e        bridge                bridge              local
+16ee19ed647f        host                  host                local
+5fd188828ce6        louyu_pure_app_net    bridge              local
+3d93dd81bd1b        none                  null                local
+5064e48e1778        old_louyu_2_app_net   bridge              local
+```
+
+
+
+10个服务-》项目（项目中的内容都在通过网络下。域名访问）
+
+mysql:3306
+
+查看网络细节：
+
+```shell
+docker network insepct xxx
+
+[root@VM-16-12-centos louyu_pure]# docker network inspect louyu_pure_app_net
+[
+    {
+        "Name": "louyu_pure_app_net",
+        "Id": "5fd188828ce6531dcf77e201fc5710986c0c00d1c6426dfd4a7f3b59e8a1e795",
+        "Created": "2021-07-31T11:05:15.330757936+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": true,
+        "Containers": {
+            "17d5dddb14c24f2c18bb283c234da26beea5c1547116f635fff1d6563d051205": {
+                "Name": "louyu_show",
+                "EndpointID": "9c461ce70f814283511d5ecfc170473224e9457539beb9819d8aa5fa40fdca19",
+                "MacAddress": "02:42:ac:13:00:05",
+                "IPv4Address": "172.19.0.5/16",
+                "IPv6Address": ""
+            },
+            "66375ae1816a7b41bfb59622224fc40360f36faef314bb5eaf9070c97ad5627e": {
+                "Name": "louyu_mysql",
+                "EndpointID": "ea666cf12dbb7b5d01237e32a62febc77432812ecdc438d3eb4b24b15149c3ba",
+                "MacAddress": "02:42:ac:13:00:03",
+                "IPv4Address": "172.19.0.3/16",
+                "IPv6Address": ""
+            },
+            "d8f1e4fa521fb2661f357d758709a81187739dfd59d73e65fce691d7bac62678": {
+                "Name": "louyu_serv",
+                "EndpointID": "4b158585d7a61f26945369f841d2fc4cc48a4e2cf135bfba39661147139cbfe9",
+                "MacAddress": "02:42:ac:13:00:04",
+                "IPv4Address": "172.19.0.4/16",
+                "IPv6Address": ""
+            },
+            "f609b22ac59bbf071c8ce73315d40271d832654930f6817c8a30386cdcc30509": {
+                "Name": "louyu_redis",
+                "EndpointID": "0865d8ecef37a9f9450376aadde4cfdee22ebc513cbcb7377809a1af64d06dd1",
+                "MacAddress": "02:42:ac:13:00:02",
+                "IPv4Address": "172.19.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {
+            "com.docker.compose.network": "app_net",
+            "com.docker.compose.project": "louyu_pure",
+            "com.docker.compose.version": "1.21.2"
+        }
+    }
+]
+```
+
+如果在同一网络环境下，可以通过网络域名去进行访问
+
+
+
+#### yml规则
+
+docker-compose.yml 核心
+
+https://docs.docker.com/compose/compose-file/compose-file-v3/
+
+```yml
+# 3层！
+vsersion: '' #版本
+services: #服务
+
+	服务1：web
+	#服务配置
+	服务2：redis
+	...
+	服务3：redis
+	...
+#其他配置 网络/卷、全局规则
+volumes:
+network:
+config:
+depends_on : 决定启动顺序，谁依赖谁
+
+```
+
+
+
+
 
 #### 实战，楼宇系统的搭建
 
@@ -1284,7 +1407,7 @@ version: '3'
 
 services:
 
-  mysql:
+  louyu_mysql:
     image: mysql
     container_name: louyu_mysql
     restart: always
@@ -1298,7 +1421,7 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: louyu
 
-  redis:
+  louyu_redis:
     # 指定镜像
     image: redis
     container_name: louyu_redis
@@ -1311,8 +1434,8 @@ services:
 
   serv:
     depends_on:
-      - mysql
-      - redis
+      - louyu_mysql
+      - louyu_redis
     build:
       context: ./
       dockerfile: Dockerfile
@@ -1457,9 +1580,15 @@ ports:
 zip -q -r html.zip /home/html
 ```
 
-### Docker Swarm
+# Docker Swarm
 
-### CI/CD之Jenkins
+集群方式的部署、4台阿里云服务器
+
+CI/CD之Jenkins
+
+
+
+
 
 #### Docker问题
 
@@ -1491,6 +1620,18 @@ cd /etc/docker
 
 ```c
 systemctl restart docker.service
+```
+
+
+
+#### docker-compose大坑
+
+#### 最后找到`--build`选项必须使用才会自动编译镜像！
+
+docker-compose 换jar包需要执行这个命令才能强制自动编译镜像
+
+```shell
+docker-compose up --force-recreate --build -d
 ```
 
 
@@ -1574,7 +1715,27 @@ firewall-cmd --reload
 
 
 
+**情况三：没有启用IP_FORWARD**
 
+```shell
+sysctl net.ipv4.ip_forward
+echo 'net.ipv4.ip_forward = 1' >> /usr/lib/sysctl.d/50-default.conf
+sysctl -p /usr/lib/sysctl.d/50-default.conf
+```
+
+
+
+
+
+### 内网穿透
+
+```shell
+ssh -o ServerAliveInterval=60 -f -N -R 9090:192.168.8.127:22 root@1.116.114.89
+
+ - 这句代码的意思是让公网机的9090端口能够监听到内网机的22端口，这样我们就能通过访问公网机的9090端口直接登录内网机器。
+   ServerAliveInterval=60  防止连接不稳定，这里设置每60秒发送一次数据包
+   这样我们就能连接通过外网机登录内网机器了
+```
 
 
 

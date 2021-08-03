@@ -495,7 +495,183 @@ public class Base {
 
 
 
+## javaWeb
 
+## 1、基本概念
+
+#### 1.1前言
+
+- web网页的意思
+- 情态web
+  - html、css
+- 动态web
+  - 淘宝
+  - 技术栈:Servlet/JSP、ASP、PHP
+
+#### 1.2web应用程序
+
+web应用程序：可以提供浏览器访问的程序
+
+- a.html、b.html
+
+- URL： U resource location
+- 这个统一的web资源会被放在同一文件夹下，web应用程序--》Tomcat:服务器
+- 一个web应用由多部分组成（静态web、动态web）
+  - html、css、js
+  - jsp、servlet
+  - java程序
+  - jar包
+  - 配置文件（Properties）
+
+war应用程序编写完毕后，若想提供给外界访问：需要一个服务器同一管理
+
+### 1.3静态web
+
+![image-20210802180841954](G:\技术积累\Java SE学习.assets\image-20210802180841954.png)
+
+### 1.4、动态web
+
+页面会动态展示：“web效果因人而异”
+
+![image-20210802200411930](G:\技术积累\Java SE学习.assets\image-20210802200411930.png)
+
+缺点：
+
+- 假如服务器的动态web资源出现了错误，需要重新编写后台程序，重新发布
+  - 停机维护
+
+优点
+
+- 可以和数据动态交互（数据持久化）
+- Web页面可以动态跟新，所有用户看到的不是同一页面
+
+![image-20210802200538819](G:\技术积累\Java SE学习.assets\image-20210802200538819.png)
+
+## 2、web服务器
+
+### 2.1技术讲解
+
+JSP/Servlet
+
+B/S:浏览和服务器
+
+C/S:客户端和服务器
+
+- sun公司主推的B/S框架
+
+### 2.2 web服务器
+
+服务器是一种被动的操作，用来处理用户的一些请求和给用户一些响应信息；
+
+**Tomcat**
+
+Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由[Apache](https://baike.baidu.com/item/Apache/6265)、Sun 和其他一些公司及个人共同开发而成。由于有了Sun 的参与和支持，最新的Servlet 和JSP 规范总是能在Tomcat 中得到体现，Tomcat 5支持最新的Servlet 2.4 和JSP 2.0 规范。因为Tomcat 技术先进、性能稳定，而且免费，因而深受Java 爱好者的喜爱并得到了部分软件开发商的认可，成为目前比较流行的Web 应用服务器。
+
+Tomcat 服务器是一个免费的开放源代码的Web 应用服务器，属于轻量级应用[服务器](https://baike.baidu.com/item/服务器)，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP 程序的首选。对于一个初学者来说，最佳选择
+
+Tomcat 实际上运行JSP 页面和Servlet
+
+## 3、Tomcat
+
+#### 面试题
+
+```xml
+<Host name="localhost"  appBase="webapps"
+      unpackWARs="true" autoDeploy="true">
+ <!--修改localhost为www.xxx.com，再去访问www.xxx.com无法访问>    
+```
+
+改进：进入C:\Windows\System32\drivers\etc\hosts
+
+修改下面hosts，可以通过tomcat.imooc.com，访问本地
+
+```
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+127.0.0.1 image.imooc.com
+127.0.0.1 tomcat.imooc.com
+127.0.0.1       activate.navicat.com
+114.116.228.59 test.public.mongodb
+114.115.240.14 test.public.mysql
+114.116.228.59 test.public.redis
+114.116.228.59 test.public.activemq
+
+```
+
+可以配置启动的端口
+
+- tomcat 8080
+- mysql 3306
+- https 443
+- http 80
+
+```xml
+<Connector port="8080" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+           redirectPort="8443" URLEncoding="UTF-8"/>
+```
+
+
+#### 面试题
+
+谈谈网站如何进行访问的！
+
+1、输入一个域名
+
+2、检查本机的C:\Windows\System32\drivers\etc\hosts配置文件下有没有这个域名映射
+
+​	1、有，直接范围对应的ip地址，这个地址中，有我们需要访问的web程序，可以直接访问
+
+	127.0.0.1       localhost
+	
+	127.0.0.1 image.imooc.com
+	127.0.0.1 tomcat.imooc.com
+	127.0.0.1       activate.navicat.com
+​	2、没有，去DNS服务器找，找到就返回，找不到就返回找不到
+
+![image-20210802213600810](G:\技术积累\Java SE学习.assets\image-20210802213600810.png)
+
+网站该有的结构
+
+```java
+--webapps : tomcat服务器的web目录
+    -ROOT
+    -kuangstudy：网站目录名字
+    	- WEB_INF
+            - class: java程序
+            - lib :web引用依赖的jar包
+            - web.xml：网站配置文件
+     	- index.html 默认首页
+        - static
+            - css
+                -style.css
+            -js
+            -img
+               
+```
+
+
+
+## Http请求
+
+## Http响应
+
+1、响应体：
+
+2、响应状态码
+
+200： 成功
+
+3xx:请求重定向
+
+- 重定向：你重新到我给你的新位置中去
+
+4xx: 找不到资源 404
+
+- 资源不存在
+
+5xx:服务器代码错误 500 502：网关错误
 
 设计思想：
 
@@ -508,4 +684,51 @@ https://www.cnblogs.com/lingshang/p/10708800.html
 定时器： 
 
 Swagger: 接口函数
+
+
+
+面试题：请你聊聊重定向和转发的区别？
+
+相同点：
+
+- 页面都会实现跳转
+
+不同点
+
+- 请求转发的时候，url不会发生变化 307
+- 重定向的时候，url地址栏会发生变化 302
+
+
+
+## Cookie、Session
+
+保存会话的两种技术Cookie、session
+
+Session是服务器建立的连接的
+
+- 服务器技术，利用这个技术，可以保存用户的会话信息？我们可以把信息数据保存在Session中
+
+Cookie是客户端保存的
+
+- 客户端技术（响应、请求）
+
+
+
+## 6、Servlet
+
+### Servlet简介
+
+- Servlet就是sun公司开发动态web的一门技术
+- Sun在这些API中提供一个接口叫做Servlet，如果想要开发一个Servlet程序，需要完成2Steps
+  - 编写一个类，实现Servlet接口
+  - 把开发好的java类部署到web服务器
+- 实现Servlet接口，默认HttpServlet
+
+
+
+
+
+编写Servlet的映射
+
+为什么需要映射：写的是java程序，但是浏览器需要连接web服务器，因此需要在web服务中注册我们写的Servlet，还需给他一个浏览器可以访问的路径
 

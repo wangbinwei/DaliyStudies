@@ -239,10 +239,98 @@ INSERT INTO 表名称 VALUES (值1, 值2,....)
 INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)
 ```
 
+
+
+## 索引数据结构
+
+索引：就排好序的数组
+
+- 二叉树
+- 红黑树
+- Hash表
+- B-Tree
+
+Mysql底层使用的B+Tree，B树
+
+### 红黑树
+
+**红黑树的特性**:
+**（1）每个节点或者是黑色，或者是红色。**
+**（2）根节点是黑色。**
+**（3）每个叶子节点（NIL）是黑色。 [注意：这里叶子节点，是指为空(NIL或NULL)的叶子节点！]**
+**（4）如果一个节点是红色的，则它的子节点必须是黑色的。**
+**（5）从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。**
+
+**注意**：
+(01) 特性(3)中的叶子节点，是只为空(NIL或null)的节点。
+(02) 特性(5)，确保没有一条路径会比其他路径长出俩倍。因而，**红黑树是相对是接近平衡的二叉树**。
+
+红黑树就平衡二叉树的操作，**左旋、右旋**，比较耗时
+
+![img](https://images0.cnblogs.com/i/497634/201403/251730074203156.jpg)
+
+### B+树
+
+比较适合范围查找，而且叶子节点会存储邻界的节点。提升区间访问的性能
+
+![image-20210726220356521](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210726220356521.png)
+
+![image-20210726203045627](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210726203045627.png)
+
+![image-20210726203643504](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210726203643504.png)
+
+存储引擎是以表单位
+
+**MyISAM**   一个表中文件下表 firm表结构、myi索引、myd数据，MYISAM是非聚集索引，索引和数据是分开
+
+**Innodb**， 底层文件 ibd(索引+数据)、firm（表结构），是聚集索引，索引和数据是结合的
+
+![image-20210726205100546](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210726205100546.png)
+
+#### 面试题：为什么建议InnoDB表必须建立主键，并且推荐使用整形的自增主键？
+
+innodb是B+树，因此直接用主键做为B+树作为索引比较好，主键不重复好区分。如果不建主键，mysql会遍历一列，看是否重复然后用这一列数据作为表的主键。
+
+B+树，用整形去比较大小，比字符串比较大小方便多了，字符串比较大小是逐位比较大小。自增主键，只会向尾巴后扩展，只会向后分裂。如果使用uuid，可能会在中间分裂，因此会效率不好。
+
+### 面试题：B+树和B树的区别
+
+同样的数据量，B树的深度会更加深，B+树的深度会比较小。
+
+因为B+树中有空白的地方放更多的范围。因此使用B+树会让数据查询的深度更小，去磁盘查询的次数更少。
+
+### Hash
+
+![image-20210726210305170](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210726210305170.png)
+
+很多时候Hash索引要比B+树索引更高效
+
+缺点：仅能满足“=”，“IN”，不支持范围查询， hash冲突问题
+
+
+
+## 联合索引是最长见的索引
+
+最左前缀法则: 联合索引就从左到右先，先排序,第一个索引相同的适合，排序第二个元素
+
+![image-20210726212348351](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210726212348351.png)
+
+
+
+## Mysql性能调优：
+
+普罗米修斯工具
+
+
+
+超过三个表禁止join，90%的场景用单表查询
+
 ## 问题：
 
 程序运行的时候，jdbc版本可能过低，mysql版本过高。需要添加useSSL=false字段
 
 ```properties
 jdbc.url=jdbc:mysql://172.17.16.12:3306/monitor?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
+
+#&、 &amp;
 ```

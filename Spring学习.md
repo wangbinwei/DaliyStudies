@@ -838,6 +838,20 @@ pojo: 可以理解为VO和PO的父类
 
 # 注解说明
 
+- @Target()  注解的作用目标, 用于描述注解的使用范围（即：被描述的注解可以用在什么地方）  **`@Target(ElementType.TYPE)`——接口、类、枚举、注解**
+
+- @Retention: 注解的保留位置
+
+  - RetentionPolicy.SOURCE:这种类型的Annotations只在源代码级别保留,编译时就会被忽略,在class字节码文件中不包含。
+  - RetentionPolicy.CLASS:这种类型的Annotations编译时被保留,默认的保留策略,在class文件中存在,但JVM将会忽略,运行时无法获得。
+  - RetentionPolicy.RUNTIME:这种类型的Annotations将被JVM保留,所以他们能在运行时被JVM或其他使用反射机制的代码所读取和使用。
+
+- @Document : 说明该注解被包含再javadoc中
+
+- @Inherited:  说明子类可以继承父类中的该注解
+
+- @Import ：是用来导入配置类或者一些需要前置加载的类.
+
 - @Autowired:自动装配通过类型。名字
 
   ​	自动装配无法通过一个注解【@Autowired】完成的时候、我们可以使用@Qualifier(value="xxx")去配置@Autowired的使用，指定一个唯一的bean对象的注入！
@@ -858,8 +872,124 @@ pojo: 可以理解为VO和PO的父类
 
   @RequestParam:将请求参数绑定到你控制器的方法参数上
 
+- @Data: 自动生成Get和Set方法
+
+- @PropertySource: 加载指定的属性文件（*.properties）到 Spring 的 Environment 中。可以配合 @Value 和@ConfigurationProperties 使用。
+  - @PropertySource 和 @Value 组合使用，可以将自定义属性文件中的属性变量值注入到当前类的使用@Value注解的成员变量中。
+  - @PropertySource 和 @ConfigurationProperties 组合使用，可以将属性文件与一个Java类绑定，将属性文件中的变量值注入到该Java类的成员变量中。
+  
+- @Builder：对象的创建工作更提供Builder方法，它提供在设计数据实体时，对外保持private setter，而对属性的赋值采用Builder的方式，这种方式最优雅，也更符合封装的原则，不对外公开属性的写操作！
+
+@Builder的使用
+
+```java
+@Builder(toBuilder = true)
+@Getter
+public class UserInfo {
+  private String name;
+  private String email;
+  @MinMoney(message = "金额不能小于0.")
+  @MaxMoney(value = 10, message = "金额不能大于10.")
+  private Money price;
+
+}
+```
+
+@Builder注解赋值新对象
+
+```java
+UserInfo userInfo = UserInfo.builder()
+        .name("zzl")
+        .email("bgood@sina.com")
+        .build();
+//修改实体，要求实体上添加@Builder(toBuilder=true)
+ userInfo = userInfo.toBuilder()
+        .name("OK")
+        .email("zgood@sina.com")
+        .build();
+```
+
+- @ServerEndpoint(value = &quot;/websocket/{ip}&quot;)
+
+
+
+# Spring接口解释说明
+
+### Spring中的InitializingBean接口的使用
+
+InitializingBean接口为bean提供了初始化方法的方式，它只包括afterPropertiesSet方法，凡是继承该接口的类，在初始化bean的时候都会执行该方法。
+
+```java
+import org.springframework.beans.factory.InitializingBean;
+public class TestInitializingBean implements InitializingBean{
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("ceshi InitializingBean");        
+    }
+    public void testInit(){
+        System.out.println("ceshi init-method");        
+    }
+}
+```
+
+配置文件
+
+```xml
+<bean id="testInitializingBean" class="com.TestInitializingBean" ></bean>
+```
+
+**总结：**
+
+1、Spring为bean提供了两种初始化bean的方式，实现InitializingBean接口，实现afterPropertiesSet方法，或者在配置文件中通过init-method指定，两种方式可以同时使用。
+
+2、实现InitializingBean接口是直接调用afterPropertiesSet方法，比通过反射调用init-method指定的方法效率要高一点，但是init-method方式消除了对spring的依赖。
+
+3、如果调用afterPropertiesSet方法时出错，则不调用init-method指定的方法。
+
 # **Bug项目**： 
 
 就是pojo项目上有类爆红的时候，但是程序可以与运行的时候，点击Invalidate Caches即可解决
 
 ![image-20210628191439939](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210628191439939.png)
+
+端口错误：
+
+![image-20210724080008942](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210724080008942.png)
+
+```shell
+C:\Users\Think>netstat -ano|findstr 1099
+  TCP    127.0.0.1:1098         127.0.0.1:1099         ESTABLISHED     25648
+  TCP    127.0.0.1:1099         127.0.0.1:1098         ESTABLISHED     25648
+
+C:\Users\Think>taskkill -f -pid 25648
+成功: 已终止 PID 为 25648 的进程。
+
+C:\Users\Think>taskkill -f -pid 25648
+
+```
+
+
+
+#### maven 打包缺失 resources 目录下的 jar 包
+
+![image-20210730193056450](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210730193056450.png)
+
+警告 jar should not point at files within the project directory
+
+**出错原因**：maven 打包时没有将以 systemPath 这种形式引入的 jar 包，包含在内
+
+**解决办法**：在 spring-boot-maven-plugin 插件中添加如下配置即可
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <includeSystemScope>true</includeSystemScope>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```

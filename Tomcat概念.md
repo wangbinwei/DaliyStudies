@@ -2,6 +2,9 @@
 Tomcat 服务器是一个开源的轻量级Web应用服务器，在中小型系统和并发量小的场合下被普遍使用，是开发和调试Servlet、JSP 程序的首选。
 
 ## 二、原理
+
+![tomcat_architecture](G:\技术积累\Jack_20210724_Tomcat架构源码分析\tomcat_architecture.png)
+
    Tomcat结构图：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210507090949722.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L29od2FuZw==,size_16,color_FFFFFF,t_70)
 

@@ -50,6 +50,10 @@ Channel 简单对一条连接的封装
 
 Channel  ---有个Pinpline ，依次处理其中的Handler  
 
+![image-20210725235014430](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210725235014430.png)
+
+![img](C:\Users\Think\AppData\Roaming\Typora\typora-user-images\image-20210726082620537.png)
+
 ![img](G:\有道云\qq2D1D5CB92B2C0FF061B3D3F82DA32CD1\5a042ec0bd4b49a58638ec97c8fee7af\clipboard.png)
 
   
@@ -194,6 +198,10 @@ public class TimeClient {
 
 
 
+
+## Netty注解
+
+- netty的channelHandler @ChannelHandler.Sharable 添加这个注解，他在生命周期中就是以单例模式中存在
 
 计算机组成原理学的差不多
 
