@@ -255,7 +255,14 @@ ArrayList类实现了可变的数组，允许保存所有元素，包括null，�
 
 LinkedList类采用链表结构保存对象，优点插入删除容易，随机访问效率低
 
-ArrayList和LinkedList就是数组和链表之前的优缺点
+ArrayList和LinkedList就是数组和链表之前的优缺点，**add、remove**
+
+```java
+List<Integer> path1 = new ArrayList<>();
+List<Integer> path2 = new ArrayList<>(path1); //可以这样子直接构造函数
+```
+
+
 
 jdk 1.8  hash表 = 数组+链表+红黑树
 
@@ -880,3 +887,183 @@ public class HelloServlet extends HttpServlet {
 
 3、一个Servlet可以指定通用的路径
 
+
+
+### 6.5、ServletContext
+
+![image-20210807163057040](G:\技术积累\Java SE学习.assets\image-20210807163057040.png)
+
+web容器启动的时候，它会为每个web程序都创一个ServletContext对象，它代表了当前的web应用；
+
+- 共享数据
+
+  我在这个Servlet中保存的数据，可以共享到其他Servlet
+
+#### 1、共享数据
+
+```java
+package com.kuang.servlet;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @author wbw
+ * @date 2021/8/7 14:52
+ */
+public class HelloServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //this.getInitParameter(); //初始化参数
+//        this.getServletConfig(); //Servlet配置
+//        this.getServletContext(); //上下文
+        ServletContext context = this.getServletContext();
+        String username = "wbw";//数据
+        context.setAttribute("username", username); //将一个数据保存在ServletContext中，名字为username,值username
+
+        System.out.println("Hello World!!!");
+    }
+}
+```
+
+取数据
+
+```java
+package com.kuang.servlet;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @author wbw
+ * @date 2021/8/7 15:18
+ */
+public class GetServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletContext context = this.getServletContext();
+        String username = (String)context.getAttribute("username");
+        System.out.println("TT");
+        resp.setContentType("test/html");
+        resp.setCharacterEncoding("utf-8");
+        resp.getWriter().print("名字" + username);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
+}
+```
+
+```xml
+  <servlet>
+    <servlet-name>hello</servlet-name>
+    <servlet-class>com.kuang.servlet.HelloServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hello</servlet-name>
+    <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>geta</servlet-name>
+    <servlet-class>com.kuang.servlet.GetServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>geta</servlet-name>
+    <url-pattern>/geta</url-pattern>
+  </servlet-mapping>
+```
+
+测试访问结果
+
+
+
+
+
+#### 2、获取初始化参数
+
+```xml
+<context-param>
+  <param-name>url</param-name>
+  <param-value>jdbc:mysql</param-value>
+</context-param>
+```
+
+```java
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletContext context = this.getServletContext();
+        String url = context.getInitParameter("url");
+        resp.getWriter().print(url);
+//        context.getInitParameter();
+
+    }
+```
+
+
+
+#### 3、请求转发
+
+**请求转发和重定向的区别？**
+
+![image-20210807163948813](G:\技术积累\Java SE学习.assets\image-20210807163948813.png)
+
+#### 4、读取资源文件
+
+Properties
+
+- 在java目录下新建立properties
+- 在resources目录下新建properties
+
+发现：都被打包到同一路径下：classes，我们俗称这个路径为classpath
+
+思路：需要一个文件流
+
+```properties
+username=root
+password=123456
+```
+
+
+
+```java
+public class ServletDemo05 extends HelloServlet{
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("进入Demo05");
+        ServletContext context = this.getServletContext();
+        InputStream is = context.getResourceAsStream("/WEB-INF/classes/db.properties");
+
+        Properties prop = new Properties();
+        prop.load(is);
+        String username = prop.getProperty("username");
+        String password = prop.getProperty("password");
+
+        resp.getWriter().print(username +":"+password);
+
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
+}
+
+```
+
+### 6.6、HttpServletRequest
+
+web服务器收到客户端的http请求，针对这个请求，分别创建以一个代表请求HttpServletRequest对象，代表响应的一个HttpServletResponse
+
+- 客户端请求参数，HttpServletRequest
+- 客户端响应消息：HttpServletResponse
