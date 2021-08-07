@@ -1743,6 +1743,18 @@ ssh -o ServerAliveInterval=60 -f -N -R 9090:192.168.8.127:22 root@1.116.114.89
 
 
 
+
+
+### jar包运行
+
+指定端口 --server.port=xxx
+
+```java
+java -jar xxx.jar --server.port=8081
+```
+
+
+
 企业实战
 
 Docker Compose

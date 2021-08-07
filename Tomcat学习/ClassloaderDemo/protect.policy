@@ -1,0 +1,10 @@
+grant {
+    permission java.io.FilePermission "D:/IdeaProjects/ClassloaderDemo/password.txt", "read";
+    permission java.util.PropertyPermission "file.encoding", "read";
+
+};
+
+
+grant codebase "file:D:/IdeaProjects/ClassloaderDemo/lib/Test-1.0-SNAPSHOT.jar" {
+  permission java.io.FilePermission "ttt", "read";
+};

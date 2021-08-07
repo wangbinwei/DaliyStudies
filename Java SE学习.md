@@ -495,7 +495,7 @@ public class Base {
 
 
 
-## javaWeb
+# javaWeb
 
 ## 1、基本概念
 
@@ -653,9 +653,80 @@ Tomcat 实际上运行JSP 页面和Servlet
 
 
 
-## Http请求
+## 4、Http请求
 
-## Http响应
+### 4.1、什么是Http
+
+超文本传输协议（Hyper Text Transfer Protocol，HTTP）是一个简单的请求-响应协议，它通常运行在[TCP](https://baike.baidu.com/item/TCP/33012)之上。
+
+- 文本：html
+- 超文本：图片、音乐
+
+### 4.2 两个时代
+
+- http1.0
+  - HTTP/1.0 客户端可以与web服务器连接后，只能获取一个web资源，断开连接
+- http2.0
+  - HTTP/1.1 客户端与web服务器连接后，可以获得多个web资源
+
+### 4.3 Http请求
+
+```
+Request URL: https://www.baidu.com/    请求地址
+Request Method: GET	请求方法
+Status Code: 200 OK	状态码
+Remote Address: 14.215.177.39:443		远程地址
+
+```
+
+
+
+### 4.4Http响应
+
+```java
+Cache-Control: private
+Connection: keep-alive
+Content-Encoding: gzip
+Content-Length: 78
+Content-Type: text/html;charset=utf-8
+Date: Mon, 02 Aug 2021 13:49:00 GMT
+Expires: Mon, 02 Aug 2021 13:49:00 GMT
+Server: BWS/1.0
+Vary: Accept-Encoding
+```
+
+```java
+Accept: text/plain, */*; q=0.01
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9
+Connection: keep-alive
+Cookie: BAIDUID=8598B539E86F626882E9930AFAB9E264:FG=1; BIDUPSID=8598B539E86F626882E9930AFAB9E264; PSTM=1532694845; BD_UPN=12314753; BDUSS=QwQlFJaXdWSHBjMmFSbC1kdU9pMDJZN0VWYy1TZEFTcUVMZ1F3aFFrVlNVcnhmRVFBQUFBJCQAAAAAAAAAAAEAAADhjTKvudi8~LTKaG8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFLFlF9SxZRfT0; BDUSS_BFESS=QwQlFJaXdWSHBjMmFSbC1kdU9pMDJZN0VWYy1TZEFTcUVMZ1F3aFFrVlNVcnhmRVFBQUFBJCQAAAAAAAAAAAEAAADhjTKvudi8~LTKaG8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFLFlF9SxZRfT0; MCITY=-%3A; __yjs_duid=1_cf78591b030cd1a975e272d4d9407fee1619836876554; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; H_PS_PSSID=34303_33763_34336_34364_31253_34377_34004_34072_34283_26350_34214_34367; delPer=0; BD_CK_SAM=1; PSINO=7; BAIDUID_BFESS=8598B539E86F626882E9930AFAB9E264:FG=1; shifen[268325072003_50791]=1627895100; BCLID=10805245477328860775; BDSFRCVID=DEAOJeC624rVYSJH3zkkhXUjSTrTu33TH6aoYtGBL4PRP4WYU0raEG0PEU8g0KA-S2EqogKKy2OTH9DF_2uxOjjg8UtVJeC6EG0Ptf8g0M5; H_BDCLCKID_SF=tRAOoC8atDvHjjrP-trf5DCShUFs0UQCB2Q-5KL-JPo4ofO_y5b0MPPJWboBQh3HQTIeoMbdJJjootbjLxkM0hDrjbJkL6OHKmTxoUJNQCnJhhvqqq-KQJ_ebPRih6j9Qg-8KpQ7tt5W8ncFbT7l5hKpbt-q0x-jLTnhVn0MBCK0HPonHj_aD5bW3f; BCLID_BFESS=10805245477328860775; BDSFRCVID_BFESS=DEAOJeC624rVYSJH3zkkhXUjSTrTu33TH6aoYtGBL4PRP4WYU0raEG0PEU8g0KA-S2EqogKKy2OTH9DF_2uxOjjg8UtVJeC6EG0Ptf8g0M5; H_BDCLCKID_SF_BFESS=tRAOoC8atDvHjjrP-trf5DCShUFs0UQCB2Q-5KL-JPo4ofO_y5b0MPPJWboBQh3HQTIeoMbdJJjootbjLxkM0hDrjbJkL6OHKmTxoUJNQCnJhhvqqq-KQJ_ebPRih6j9Qg-8KpQ7tt5W8ncFbT7l5hKpbt-q0x-jLTnhVn0MBCK0HPonHj_aD5bW3f; __yjs_st=2_NWE2NTc1MTIwZmFjOTRjMThhYTM2MjEwMTE0YTZhYmRkZmRmY2JkZTY3OWFlZTk4NjM1ZmI2YjhjMWZiNWE2NGFjMjNhNWRlNTYyYTJiZjE3MDI0OTA5YzEzYWQ5OGNkMTBhMzg5MTNmM2IzYmRhZmI4ZGM2YjNkZDVlY2E4ZWNkYzA3MTM1ZDNlOGIwNDAxYTE1NGJkZTlhYTJhZjAxNTViZWNhZWJhMGQ1ODAwNGMwZjk0ZGRjZjYyZmZjNGFkZWM2NjdmMGJmZTBlMmYyMDhkZmU0NzI5MTg0ZjQ4ZjBjOWVhZTRkMjliMzczM2NjMjQ5M2RhYzQ5MmIyNmJiMl83X2VjN2M4OTIw; BD_HOME=1; BDRCVFR[feWj1Vr5u3D]=I67x6TjHwwYf0; COOKIE_SESSION=10716_2_6_6_7_9_0_0_4_5_5_0_13463_0_3_3_1627905818_1627895102_1627905815%7C7%230_1_1627895099%7C1; H_PS_645EC=c383piVVwluhP0iGwJFNZYQMvi8v%2Bv3da5PGcrTwSXng%2BJ8qdADVWXMeW1kvlpGcwWeI; BA_HECTOR=210laka08l80a52kvi1ggftuc0q
+Host: www.baidu.com
+Referer: https://www.baidu.com/
+sec-ch-ua: "Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"
+sec-ch-ua-mobile: ?0
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36
+X-Requested-With: XMLHttpRequest
+```
+
+1、请求行
+
+2、消息头
+
+```java
+Accept: text/plain, */*; q=0.01
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9  
+Cache-Control :缓存控制
+Connection: keep-alive ：告诉主机是请求是断开还是保持连接
+Host: www.baidu.com
+
+```
+
+
 
 1、响应体：
 
@@ -726,9 +797,86 @@ Cookie是客户端保存的
 
 
 
+```java
+package com.kuang.servlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * @author wbw
+ * @date 2021/8/2 16:35
+ */
+public class HelloServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //req.getInputStream();
+        System.out.println("进入doGet");
+        PrintWriter writer = resp.getWriter();//response streamd
+        writer.print("Hello Servlet");
+        //super.doGet(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
+}
+
+```
+
 
 
 编写Servlet的映射
 
 为什么需要映射：写的是java程序，但是浏览器需要连接web服务器，因此需要在web服务中注册我们写的Servlet，还需给他一个浏览器可以访问的路径
+
+```xml
+
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <servlet>
+    <servlet-name>hello</servlet-name>
+    <servlet-class>com.kuang.servlet.HelloServlet</>
+  </servlet>
+<!-- 注册Servlet -->
+  <servlet-mapping>
+    <servlet-name>hello</servlet-name>
+    <url-pattern>/hello</url-pattern>
+<!--Servlet的请求路径-->
+  </servlet-mapping>
+
+</web-app>
+
+```
+
+![image-20210803122149941](G:\技术积累\Java SE学习.assets\image-20210803122149941.png)
+
+### 6.4 Mapping
+
+1、一个Servlet可以指定一个映射路径
+
+```xnl
+  <servlet>
+    <servlet-name>hello</servlet-name>
+    <servlet-class>com.kuang.servlet.HelloServlet</servlet-class>
+  </servlet>
+  <!-- 注册Servlet -->
+  <servlet-mapping>
+    <servlet-name>hello</servlet-name>
+    <url-pattern>/hello</url-pattern>
+    <!--Servlet的请求路径-->
+  </servlet-mapping>
+```
+
+2、一个Servlet可以指定多个映射路径
+
+3、一个Servlet可以指定通用的路径
 

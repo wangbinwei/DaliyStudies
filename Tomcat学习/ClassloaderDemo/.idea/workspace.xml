@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fc72ad31-1e25-48c9-bea2-991933e3d487" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1SMolt6eiVyvaF2asrxcoCaWx41" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\IdeaProjects\ClassloaderDemo\com\luban" />
+      <recent name="C:\Users\周瑜\IdeaProjects\ClassloaderDemo\com\luban" />
+      <recent name="C:\Users\周瑜\IdeaProjects\ClassloaderDemo" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.luban" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IdeaProjects\ClassloaderDemo" />
+      <recent name="C:\Users\周瑜\IdeaProjects\ClassloaderDemo\com\luban" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.MyClassLoader">
+    <configuration name="MyClassLoader" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.luban.MyClassLoader" />
+      <module name="ClassloaderDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.luban.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SecurityManagerTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.luban.SecurityManagerTest" />
+      <module name="ClassloaderDemo" />
+      <option name="VM_PARAMETERS" value="-Djava.security.manager -Djava.security.policy=$PROJECT_DIR$/protect.policy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.luban.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.luban.Test" />
+      <module name="ClassloaderDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.luban.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.luban.Test1" />
+      <module name="ClassloaderDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.luban.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TomcatClassLoader" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.luban.TomcatClassLoader" />
+      <module name="ClassloaderDemo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.luban.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.MyClassLoader" />
+      <item itemvalue="Application.SecurityManagerTest" />
+      <item itemvalue="Application.TomcatClassLoader" />
+      <item itemvalue="Application.Test1" />
+      <item itemvalue="Application.Test" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MyClassLoader" />
+        <item itemvalue="Application.Test" />
+        <item itemvalue="Application.Test1" />
+        <item itemvalue="Application.TomcatClassLoader" />
+        <item itemvalue="Application.SecurityManagerTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc72ad31-1e25-48c9-bea2-991933e3d487" name="Default Changelist" comment="" />
+      <created>1571382979976</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1571382979976</updated>
+      <workItem from="1571382981559" duration="12655000" />
+      <workItem from="1571896591994" duration="4156000" />
+      <workItem from="1572268638106" duration="3848000" />
+      <workItem from="1573385998666" duration="4385000" />
+      <workItem from="1574231736992" duration="9526000" />
+      <workItem from="1574746746575" duration="8666000" />
+      <workItem from="1574766592492" duration="5902000" />
+      <workItem from="1574835343472" duration="602000" />
+      <workItem from="1575356962714" duration="8322000" />
+      <workItem from="1575968974784" duration="8722000" />
+      <workItem from="1577171486733" duration="11720000" />
+      <workItem from="1578291497453" duration="319000" />
+      <workItem from="1578292256837" duration="3385000" />
+      <workItem from="1578296036617" duration="1044000" />
+      <workItem from="1578297134453" duration="1042000" />
+      <workItem from="1578375199683" duration="13287000" />
+      <workItem from="1582779810225" duration="20459000" />
+      <workItem from="1583065589053" duration="680000" />
+      <workItem from="1583147580612" duration="651000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/luban/TomcatClassLoader.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/luban/URLClassLoaderTest.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/luban/TomcatClassLoader.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/luban/MyClassLoader.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
